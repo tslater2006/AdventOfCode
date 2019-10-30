@@ -1,37 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace AdventOfCode.Problems._2018
 {
-    internal struct Day20Coord
-    {
-        internal int X;
-        internal int Y;
-
-        internal Day20Coord(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
     internal class Day20 : BaseProblem
     {
-        Dictionary<Day20Coord, int> rooms = new Dictionary<Day20Coord, int>();
-        Stack<Day20Coord> roomStack = new Stack<Day20Coord>();
+        Dictionary<Point, int> rooms = new Dictionary<Point, int>();
+        Stack<Point> roomStack = new Stack<Point>();
 
-        Day20Coord currentRoom;
         public Day20() : base(2018, 20){}
 
         internal override string SolvePart1()
         {
 
-            var startingRoom = new Day20Coord(0, 0);
+            var startingRoom = new Point(0, 0);
             rooms.Add(startingRoom, 0);
 
-            Walk(startingRoom, 1);
+            Walk(startingRoom);
 
             var farthestRoom = rooms.Keys.OrderBy(k => rooms[k]).Last();
 
@@ -47,17 +36,18 @@ namespace AdventOfCode.Problems._2018
             return roomsAtLeast1000.ToString();
         }
 
-        void Walk(Day20Coord start, int charIndex)
+        void Walk(Point start)
         {
             var currentRoom = start;
-            Day20Coord nextRoom;
+            var charIndex = 0;
+            Point nextRoom;
             while (charIndex < InputLines[0].Length)
             {
                 var nextChar = InputLines[0][charIndex++];
                 switch (nextChar)
                 {
                     case 'N':
-                        nextRoom = new Day20Coord(currentRoom.X, currentRoom.Y + 1);
+                        nextRoom = new Point(currentRoom.X, currentRoom.Y + 1);
                         if (rooms.ContainsKey(nextRoom) == false)
                         {
                             rooms.Add(nextRoom, rooms[currentRoom] + 1);
@@ -65,7 +55,7 @@ namespace AdventOfCode.Problems._2018
                         currentRoom = nextRoom;
                         break;
                     case 'E':
-                        nextRoom = new Day20Coord(currentRoom.X + 1, currentRoom.Y);
+                        nextRoom = new Point(currentRoom.X + 1, currentRoom.Y);
                         if (rooms.ContainsKey(nextRoom) == false)
                         {
                             rooms.Add(nextRoom, rooms[currentRoom] + 1);
@@ -73,7 +63,7 @@ namespace AdventOfCode.Problems._2018
                         currentRoom = nextRoom;
                         break;
                     case 'S':
-                        nextRoom = new Day20Coord(currentRoom.X, currentRoom.Y - 1);
+                        nextRoom = new Point(currentRoom.X, currentRoom.Y - 1);
                         if (rooms.ContainsKey(nextRoom) == false)
                         {
                             rooms.Add(nextRoom, rooms[currentRoom] + 1);
@@ -81,7 +71,7 @@ namespace AdventOfCode.Problems._2018
                         currentRoom = nextRoom;
                         break;
                     case 'W':
-                        nextRoom = new Day20Coord(currentRoom.X - 1, currentRoom.Y);
+                        nextRoom = new Point(currentRoom.X - 1, currentRoom.Y);
                         if (rooms.ContainsKey(nextRoom) == false)
                         {
                             rooms.Add(nextRoom, rooms[currentRoom] + 1);
