@@ -19,6 +19,7 @@ namespace AdventOfCode
         {
             this.Year = year;
             this.Day = day;
+            ReadInput();
         }
 
         internal void ReadInput()

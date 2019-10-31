@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventOfCode.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,8 +9,9 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
+
             int year = 2018;
-            int day = 20;
+            int day = 23;
 
 
             IEnumerable<BaseProblem> problems = typeof(BaseProblem).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseProblem)) && !t.IsAbstract).Select(t => (BaseProblem)Activator.CreateInstance(t));
@@ -18,7 +20,6 @@ namespace AdventOfCode
                 if (p.Year == year && (p.Day == day) || day == 0)
                 {
                     Console.WriteLine($"Running Year {p.Year}, Day {p.Day}...");
-                    p.ReadInput();
                     Console.WriteLine($"  Part 1: {p.SolvePart1()}");
                     Console.WriteLine($"  Part 2: {p.SolvePart2()}");
                 }
