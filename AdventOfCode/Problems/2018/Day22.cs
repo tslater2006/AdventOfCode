@@ -254,11 +254,11 @@ namespace AdventOfCode.Problems._2018
     /* Borrowed from here: https://github.com/payou42/aoc/blob/cffca7aba4ed7f6f91abb4042626f93b575a49fc/common/containers/PriorityQueue.cs */
     public class PriorityQueue<T>
     {
-        private Dictionary<T, long> _dataByContent;
+        public Dictionary<T, long> _dataByContent;
 
-        private Dictionary<long, List<T>> _dataByPriority;
+        public Dictionary<long, List<T>> _dataByPriority;
 
-        private SortedSet<long> _priorities;
+        public SortedSet<long> _priorities;
 
         private long _count;
 
@@ -359,7 +359,25 @@ namespace AdventOfCode.Problems._2018
             DequeueAtPriority(_priorities.Max, out data);
             return true;
         }
+        public void DequeueItem(T data)
+        {
+            var priority = _dataByContent[data];
+            var matches = _dataByPriority[priority];
+            // Remove it from the data dict
+            _dataByContent.Remove(data);
 
+            // Remove it from the priority dict
+            matches.Remove(data);
+
+            if (matches.Count == 0)
+            {
+                _dataByPriority.Remove(priority);
+                _priorities.Remove(priority);
+            }
+
+            // Decrease count
+            _count--;
+        }
         public void DequeueAtPriority(long priority, out T data)
         {
             // Get the item from the priorities dict
