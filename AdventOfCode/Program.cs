@@ -11,7 +11,7 @@ namespace AdventOfCode
         {
 
             int year = 2018;
-            int day = 23;
+            int day = 24;
 
 
             IEnumerable<BaseProblem> problems = typeof(BaseProblem).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseProblem)) && !t.IsAbstract).Select(t => (BaseProblem)Activator.CreateInstance(t));
